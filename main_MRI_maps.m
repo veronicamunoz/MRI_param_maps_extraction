@@ -36,25 +36,25 @@ for s = 1 : size(Subj_dir,1)
     cd(fullfile(Path,Subj_dir(s,1).name))
     % PERFUSION
     %
-    dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'PERFUSION.nii');
+    dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
     extract_perf_maps(dce_perf_file);
     
     % DIFFUSION
     % 
-    apa_file = fullfile(Path, Subj_dir(s,1).name,'Cerveau_APA_7x0.nii');
-    app_file = fullfile(Path, Subj_dir(s,1).name,'Cerveau_APP_7x0.nii');
+    apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
+    app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
     extract_dti_map(app_file,apa_file);
     
     % RELAXOMETRY T1 VFA
     %
     FA = {'5','15','20','35'};
-    t1_files = fullfile(Path, Subj_dir(s,1).name,strcat('DCEFA',FA,'.nii'));
+    t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
     thresh = 5;
     extract_T1map_VFA(t1_files, thresh);
     
     % RELAXOMETRY T2
     %
-    t2_file = fullfile(Path, Subj_dir(s,1).name,'T2etoile_4echo.nii');
+    t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
     limits = [0,Inf];
     thresh = 5;
     extract_T2starmap(t2_file, thresh, limits);    
