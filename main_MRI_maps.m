@@ -20,13 +20,11 @@ spm_path = '/usr/local/MATLAB/spm12';
 addpath(spm_path);
 global mrtrix_path
 mrtrix_path = '/home/veronica/mrtrix3/bin/';
-global c3d_path
-c3d_path = '/usr/local/MATLAB/spm12';
 
 Path = '/media/veronica/DATAPART2/SignaPark/Test/'; 
 
 %% ORGANIZE NIFTIS AFTER IMPORT WITH MRI_CONV
-%organize_niftis(Path);
+organize_niftis(Path);
 
 %% PARAMETRIC MAPS EXTRACTION
 

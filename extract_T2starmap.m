@@ -71,15 +71,16 @@ OutputImages(OutputImages < 0) = NaN;
 OutputImages(OutputImages > 300) = NaN;
 OutputImages(isnan(OutputImages)) = NaN;
 
-% save the new files (.nii & .json)
+[path, ~, ~] = fileparts(t2_file);
 % update the header before saving the new .nii
-info2 = info;
-info2.Filename = fullfile(path,'T2star_map.nii');
-info2.Filemoddate = char(datetime('now'));
-info2.Datatype = class(OutputImages);
-info2.PixelDimensions = info.PixelDimensions(1:length(size(OutputImages)));
-info2.ImageSize = size(OutputImages);
+info.Filename = fullfile(path,'T2star_map.nii');
+info.Filemoddate = char(datetime('now'));
+info.Datatype = class(OutputImages);
+info.PixelDimensions = info.PixelDimensions(1:length(size(OutputImages)));
+info.ImageSize = size(OutputImages);
+
 
 % save the new .nii file
-niftiwrite(OutputImages, fullfile(path,'T2star_map.nii'), info2);
+niftiwrite(OutputImages, fullfile(path,'T2star_map.nii'), info);
+
 end
