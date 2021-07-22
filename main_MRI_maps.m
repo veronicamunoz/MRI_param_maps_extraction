@@ -32,33 +32,34 @@ Subj_dir = dir([Path '/*']);
 Subj_dir = Subj_dir(arrayfun(@(x) ~strcmp(x.name(1),'.'),Subj_dir));
 
 for s = 1 : size(Subj_dir,1)
-    disp(Subj_dir(s,1).name);
-    cd(fullfile(Path,Subj_dir(s,1).name))
-    % PERFUSION
-    %
-    dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
-    extract_perf_maps(dce_perf_file);
-    
-    % DIFFUSION
-    % 
-    apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
-    app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
-    extract_dti_map(app_file,apa_file);
-    
-    % RELAXOMETRY T1 VFA
-    %
-    FA = {'5','15','20','35'};
-    t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
-    thresh = 5;
-    extract_T1map_VFA(t1_files, thresh);
-    
-    % RELAXOMETRY T2
-    %
-    t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
-    limits = [0,Inf];
-    thresh = 5;
-    extract_T2starmap(t2_file, thresh, limits);    
-    
+    if (exist(fullfile(Path,Subj_dir(s,1).name), 'dir')~=0)
+        disp(Subj_dir(s,1).name);
+        cd(fullfile(Path,Subj_dir(s,1).name))
+        % PERFUSION
+        %
+        dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
+        extract_perf_maps(dce_perf_file);
+
+        % DIFFUSION
+        % 
+        apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
+        app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
+        extract_dti_map(app_file,apa_file);
+
+        % RELAXOMETRY T1 VFA
+        %
+        FA = {'5','15','20','35'};
+        t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
+        thresh = 5;
+        extract_T1map_VFA(t1_files, thresh);
+
+        % RELAXOMETRY T2
+        %
+        t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
+        limits = [0,Inf];
+        thresh = 5;
+        extract_T2starmap(t2_file, thresh, limits);    
+    end
 end
 cd(Path)
 

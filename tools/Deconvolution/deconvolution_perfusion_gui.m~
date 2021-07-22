@@ -310,14 +310,13 @@ T0 = T0 + window_size - 1;
 T0(~mask_computation | T0 == window_size) = 0;
 [~,TTP] = min(VOX,[],4);
 
-% Recherche des voxels non-nuls dans le masque
 in=find(mask_computation);
-sz=size(mask_computation);
-if isempty(in), mask_ind=[]; return; end;
-[out{1:ndims(mask_computation)}] = ind2sub(sz,in);
-mask_ind = cell2mat(out);
+sz=size(arr);
+if isempty(in), ind=[]; return; end;
+[out{1:ndims(arr)}] = ind2sub(sz,in);
+ind = cell2mat(out);
 
-for vox = mask_ind.'
+for vox = findn(mask_computation).'
     I = vox(1);
     J = vox(2);
     if numel(vox) == 3

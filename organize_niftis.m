@@ -1,4 +1,3 @@
-
 function organize_niftis(Path)
 cd(Path);
 

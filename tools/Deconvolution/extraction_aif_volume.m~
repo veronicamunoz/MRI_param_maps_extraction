@@ -49,7 +49,7 @@ HP = BL - MINVOX;
 
 %%% Calcul de la largeur des pics %%%
 WP = Dvox*ones(Hvox,Wvox,Sli);
-% Recherche des indices des voxels non nuls
+% Recherche des i
 in=find(BINSEL);
 sz=size(BINSEL);
 if isempty(in), BIN_ind=[]; return; end;

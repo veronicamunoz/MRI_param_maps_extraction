@@ -12,9 +12,10 @@ end
 
 N = double(N);
 info = niftiinfo(perf_file);
-[path, ~, ~] = fileparts(perf_file);
+[path, name, ~] = fileparts(perf_file);
+jsonfile = [path, '/', name, '.json'];
 
-J = spm_jsonread(strrep(perf_file, '.nii', '.json'));
+J = ReadJson(jsonfile);
 
 %% Remove Background
 % Method by Jean-Albert Lotterie (CHU Toulouse)
@@ -57,7 +58,7 @@ meansignal = mean(squeeze(N),4);
 volume_mask = meansignal>max(N(:))*0.01;
 [aif,scores] = extraction_aif_volume(squeeze(N),volume_mask);
 
-if sum(cell2mat(scores(:,5))) > 10
+if sum(cell2num(scores(:,5))) > 10
     error('No computation because the AIF is not good enough');
 else
     [~,~,~,TMAX,TTP,T0, CBV,CBF,MTT,~,~,~,~] = deconvolution_perfusion_gui(aif,squeeze(N),J.RepetitionTime.value(1)*10^(-3),J.EchoTime.value*10^(-3));

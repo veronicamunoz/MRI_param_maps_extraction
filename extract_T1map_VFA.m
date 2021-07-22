@@ -8,7 +8,8 @@ for angles=1:NbAngles
         fclose(fid);
         %tmp =  niftiread(files_in.In1{angles});
         input(angles).nifti_header = spm_vol(t1_files{angles});
-        data_to_process(:,:,:,angles) = read_volume(input(angles).nifti_header, input(1).nifti_header, 0, 'Axial');
+        %data_to_process(:,:,:,angles) = read_volume(input(angles).nifti_header, input(1).nifti_header, 0, 'Axial');
+        data_to_process(:,:,:,angles) = niftiread(t1_files{angles});
         input(angles).json = spm_jsonread(strrep(t1_files{angles}, '.nii', '.json'));
         flip_angles(angles) = input(angles).json.FlipAngle.value;
         TR(angles) = input(angles).json.RepetitionTime.value;
@@ -57,7 +58,7 @@ T1map = -mean(TR)./ log(fit_result(:,:,:,1)); % en ms
 
 % transform the T1map matrix in order to match to the nii hearder of the
 % first input (rotation/translation)
-T1map = write_volume(T1map, input(1).nifti_header, 'Axial');
+%T1map = write_volume(T1map, input(1).nifti_header, 'Axial');
 [path, ~, ~] = fileparts(t1_files{1});
 
 %% save the new files (.nii & .json)
