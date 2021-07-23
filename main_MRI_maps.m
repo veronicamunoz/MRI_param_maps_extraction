@@ -21,7 +21,7 @@ addpath(spm_path);
 global mrtrix_path
 mrtrix_path = '/home/veronica/mrtrix3/bin/';
 
-Path = '/media/veronica/DATAPART2/SignaPark/TestT2/';
+Path = '/media/veronica/DATAPART2/SignaPark/Test/';
 
 %% ORGANIZE NIFTIS AFTER IMPORT WITH MRI_CONV
 organize_niftis(Path);

@@ -1,4 +1,3 @@
-
 function organize_niftis(Path)
 cd(Path);
 
@@ -24,6 +23,7 @@ files= dir([Path '/*']);
 files = files(arrayfun(@(x) ~strcmp(x.name(1),'.'),files));
 
 for i = 1 : size(files,1)
+    if exist(files,'dir')~=7
     [~,~,ext]= fileparts(files(i).name);
     parts = strsplit(files(i).name,{'-','.'});
     subject = char(parts(1));
@@ -67,10 +67,13 @@ for i = 1 : size(files,1)
     
     if contains(sequence,'4echo') || contains(sequence,'MULTIGRE') || contains(sequence,'SWI') 
         path = fullfile(Path,subject,'Relaxometry');
-        if 
+        if contains(sequence,'SWI') && ~contains(sequence,'clinical') && ~contains(sequence,'cs')
+            sequence = 'T2etoile_4echo';
+        end
     end
     
-    movefile(fullfile(Path,files(i).name), fullfile(path,strcat(sequence,ext)));         
+    movefile(fullfile(Path,files(i).name), fullfile(path,strcat(sequence,ext)));    
+    end
 end
 
 
