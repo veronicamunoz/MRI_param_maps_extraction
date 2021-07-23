@@ -7,6 +7,7 @@ function extract_dti_map(app_file,apa_file)
 %--------------------------------------------------------------------------
 
 global mrtrix_path
+cd('./Diffusion');
 disp('-------- MR convert nifti to mif ---------');
 status = system([mrtrix_path 'mrconvert ' app_file ' dwi_APP.mif -fslgrad ' strrep(app_file, '.nii', '.bvecs') ' ' strrep(app_file, '.nii', '.bvals')]);
 if status == 0
@@ -86,4 +87,5 @@ status = system([mrtrix_path 'tensor2metric -adc MD.nii -fa FA.nii -mask mask_or
 if status ~= 0
     warning('FAIL - tensor2metric');
 end
+cd('..');
 end

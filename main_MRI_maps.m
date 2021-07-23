@@ -64,13 +64,14 @@ for s = 1 : size(Subj_dir,1)
         t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
         limits = [0,Inf];
         thresh = 5;
-        if exist(dce_perf_file, 'file')~=0
+        if exist(t2_file, 'file')~=0
             extract_T2starmap(t2_file, thresh, limits);
         end
     end
 end
 cd(Path)
 
+disp('Click ENTER if you want to continue with segmentation.');
 pause();
 
 %% SEGMENTATION
