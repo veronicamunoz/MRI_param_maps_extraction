@@ -21,7 +21,7 @@ addpath(spm_path);
 global mrtrix_path
 mrtrix_path = '/home/veronica/mrtrix3/bin/';
 
-Path = '/media/veronica/DATAPART2/SignaPark/Test/'; 
+Path = '/media/veronica/DATAPART2/SignaPark/TestT2/';
 
 %% ORGANIZE NIFTIS AFTER IMPORT WITH MRI_CONV
 organize_niftis(Path);
@@ -38,32 +38,40 @@ for s = 1 : size(Subj_dir,1)
         % PERFUSION
         %
         dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
-        extract_perf_maps(dce_perf_file);
-
+        if exist(dce_perf_file, 'file')~=0
+            extract_perf_maps(dce_perf_file);
+        end
+        
         % DIFFUSION
-        % 
+        %
         apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
         app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
-        extract_dti_map(app_file,apa_file);
-
+        if (exist(apa_file, 'file')~=0) && (exist(app_file, 'file')~=0)
+            extract_dti_map(app_file,apa_file);
+        end
+        
         % RELAXOMETRY T1 VFA
         %
         FA = {'5','15','20','35'};
         t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
         thresh = 5;
-        extract_T1map_VFA(t1_files, thresh);
-
+        if exist(t1_files{1}, 'file')~=0
+            extract_T1map_VFA(t1_files, thresh);
+        end
+        
         % RELAXOMETRY T2
         %
         t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
         limits = [0,Inf];
         thresh = 5;
-        extract_T2starmap(t2_file, thresh, limits);    
+        if exist(dce_perf_file, 'file')~=0
+            extract_T2starmap(t2_file, thresh, limits);
+        end
     end
 end
 cd(Path)
 
-
+pause();
 
 %% SEGMENTATION
 % Brain segmentation using SPM/CAT12 functions

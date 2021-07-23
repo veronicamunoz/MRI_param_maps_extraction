@@ -66,7 +66,7 @@ for i = 1 : size(files,1)
     
     if contains(sequence,'4echo') || contains(sequence,'MULTIGRE') || contains(sequence,'SWI') 
         path = fullfile(Path,subject,'Relaxometry');
-        if contains(sequence,'SWI') 
+        if contains(sequence,'SWI') && ~contains(sequence,'clinical')
             sequence = 'T2etoile_4echo';
         end
     end
