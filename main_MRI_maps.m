@@ -35,38 +35,44 @@ for s = 1 : size(Subj_dir,1)
     if (exist(fullfile(Path,Subj_dir(s,1).name), 'dir')~=0)
         disp(Subj_dir(s,1).name);
         cd(fullfile(Path,Subj_dir(s,1).name))
-        % PERFUSION
-        %
-        dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
-        if exist(dce_perf_file, 'file')~=0
-            extract_perf_maps(dce_perf_file);
+        apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0');
+        app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0');
+        if (exist([apa_file '.nii'], 'file')~=0) && (exist([app_file '.nii'], 'file')~=0)
+            system([which('extract_dti_maps.sh') ' ' fullfile(Path,Subj_dir(s,1).name) ' ' app_file ' ' apa_file]);
         end
-        
-        % DIFFUSION
-        %
-        apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
-        app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
-        if (exist(apa_file, 'file')~=0) && (exist(app_file, 'file')~=0)
-            extract_dti_map(app_file,apa_file);
-        end
-        
-        % RELAXOMETRY T1 VFA
-        %
-        FA = {'5','15','20','35'};
-        t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
-        thresh = 5;
-        if exist(t1_files{1}, 'file')~=0
-            extract_T1map_VFA(t1_files, thresh);
-        end
-        
-        % RELAXOMETRY T2
-        %
-        t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
-        limits = [0,Inf];
-        thresh = 5;
-        if exist(t2_file, 'file')~=0
-            extract_T2starmap(t2_file, thresh, limits);
-        end
+       
+%         % PERFUSION
+%         %
+%         dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
+%         if exist(dce_perf_file, 'file')~=0
+%             extract_perf_maps(dce_perf_file);
+%         end
+%         
+%         % DIFFUSION
+%         %
+%         apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
+%         app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
+%         if (exist(apa_file, 'file')~=0) && (exist(app_file, 'file')~=0)
+%             extract_dti_map(app_file,apa_file);
+%         end
+%         
+%         % RELAXOMETRY T1 VFA
+%         %
+%         FA = {'5','15','20','35'};
+%         t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
+%         thresh = 5;
+%         if exist(t1_files{1}, 'file')~=0
+%             extract_T1map_VFA(t1_files, thresh);
+%         end
+%         
+%         % RELAXOMETRY T2
+%         %
+%         t2_file = fullfile(Path, Subj_dir(s,1).name,'Relaxometry','T2etoile_4echo.nii');
+%         limits = [0,Inf];
+%         thresh = 5;
+%         if exist(t2_file, 'file')~=0
+%             extract_T2starmap(t2_file, thresh, limits);
+%         end
     end
 end
 cd(Path)

@@ -52,7 +52,13 @@ if status ~= 0
     warning('FAIL - mrcat');
 end
 
-status = system([mrtrix_path 'dwipreproc all_DWIs.mif dwi_preproc.mif -pe_dir PA -rpe_all -eddy_options="--slm=linear" ']);
+if exist([mrtrix_path 'dwipreproc'])~=0
+    status = system([mrtrix_path 'dwipreproc all_DWIs.mif dwi_preproc.mif -pe_dir PA -rpe_all -eddy_options="--slm=linear" ']);
+elseif exist([mrtrix_path 'dwifslpreproc'])~=0
+     status = system([mrtrix_path 'dwifslpreproc all_DWIs.mif dwi_preproc.mif -pe_dir PA -rpe_all -eddy_options="--slm=linear" ']);
+else
+    status = 0;
+end
 if status ~= 0
     warning('FAIL - dwipreproc');
 end
@@ -71,7 +77,7 @@ if status ~= 0
     warning('FAIL - upsampling');
 end
 
-status = system([mrtrix_path ' dwi2mask dwi_preproc_upsampled.mif mask_upsampled.mif']);
+status = system([mrtrix_path 'dwi2mask dwi_preproc_upsampled.mif mask_upsampled.mif']);
 if status ~= 0
     warning('FAIL - mask upsampling');
 end
