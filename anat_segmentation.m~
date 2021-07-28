@@ -23,6 +23,32 @@ end
 clear matlabbatch
 spm_jobman('initcfg');
 matlabbatch{1}.spm.tools.cat.estwrite.data = liste_anat';
+matlabbatch{1}.spm.tools.cat.estwrite.nproc = nproc;
+matlabbatch{1}.spm.tools.cat.estwrite.opts.tpm = {[spm_path '/tpm/TPM.nii']};
+matlabbatch{1}.spm.tools.cat.estwrite.opts.affreg = 'mni';
+matlabbatch{1}.spm.tools.cat.estwrite.opts.biasstr = 0.5;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.APP = 1070;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.LASstr = 0.5;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.gcutstr = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.darteltpm = {[spm_path '/toolbox/cat12/templates_1.50mm/Template_1_IXI555_MNI152.nii']};
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.shootingtpm = {[spm_path '/toolbox/cat12/templates_1.50mm/Template_0_IXI555_MNI152_GS.nii']};
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.regstr = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.vox = 1;
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.restypes.fixed = [1 0.1];
+matlabbatch{1}.spm.tools.cat.estwrite.output.surface = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.ROImenu.noROI = struct([]);
+matlabbatch{1}.spm.tools.cat.estwrite.output.GM.native = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.GM.mod = 1;
+matlabbatch{1}.spm.tools.cat.estwrite.output.GM.dartel = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.WM.native = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.WM.mod = 1;
+matlabbatch{1}.spm.tools.cat.estwrite.output.WM.dartel = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.bias.warped = 1;
+matlabbatch{1}.spm.tools.cat.estwrite.output.jacobian.warped = 0;
+matlabbatch{1}.spm.tools.cat.estwrite.output.warps = [1 1];
+
+
+matlabbatch{1}.spm.tools.cat.estwrite.data = liste_anat';
 matlabbatch{1}.spm.tools.cat.estwrite.data_wmh = {''};
 matlabbatch{1}.spm.tools.cat.estwrite.nproc = nproc;
 matlabbatch{1}.spm.tools.cat.estwrite.useprior = '';
@@ -38,7 +64,7 @@ matlabbatch{1}.spm.tools.cat.estwrite.extopts.LASstr = 0.5;
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.LASmyostr = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.gcutstr = 2;
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.WMHC = 2;
-matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.shooting.shootingtpm = {[spm_path '/toolbox/cat12/templates_MNI152NLin2009cAsym/Template_0_GS.nii']};
+matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.shooting.shootingtpm = {'/usr/local/MATLAB/spm12'/toolbox/cat12/templates_MNI152NLin2009cAsym/Template_0_GS.nii'};
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.registration.shooting.regstr = 0.5;
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.vox = 1.5;
 matlabbatch{1}.spm.tools.cat.estwrite.extopts.bb = 12;
@@ -94,6 +120,7 @@ matlabbatch{1}.spm.tools.cat.estwrite.output.las.dartel = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.output.jacobianwarped = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.output.warps = [1 1];
 matlabbatch{1}.spm.tools.cat.estwrite.output.rmat = 0;
+
 spm('defaults', 'FMRI');
 spm_jobman('run', matlabbatch);
 clear matlabbatch

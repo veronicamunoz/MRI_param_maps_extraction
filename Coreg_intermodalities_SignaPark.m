@@ -1,6 +1,3 @@
-clear all;
-close all;
-
 File_path = '/media/veronica/DATAPART2/SignaPark/Patients/';
 
 Subj_dir = dir([File_path '*']);
