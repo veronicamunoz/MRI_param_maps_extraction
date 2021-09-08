@@ -2,6 +2,33 @@ function extract_T1map_VFA(t1_files, thresh)
 
 NbAngles = size(t1_files,2);
 
+Im_info = niftiinfo(t1_files{1});
+sizeXYZ = Im_info.ImageSize;
+Im = zeros([sizeXYZ,NbAngles]);
+
+for angle=1:NbAngles
+    Im(:,:,:,angle) = niftiread(t1_files{1});
+    json_info = spm_jsonread(strrep(t1_files{angle}, '.nii', '.json'));
+    flip_angles(angle) = json_info.FlipAngle.value;
+    TR(angle) = json_info.RepetitionTime.value;
+end
+
+% Novifast test
+ini=[0.2,500];
+options=struct('Tol',1e-4);
+[ ~, T1 ] = novifast_image( Im, flip_angles', TR(1), options, ini);
+
+Im_info.Datatype = class(T1);
+niftiwrite(T1,'/media/veronica/DATAPART2/SignaPark/Test/PAT21/Relaxometry/T1_novifast.nii',Im_info)
+
+% qMRlab test
+Model = vfa_t1;
+Model.Prot.VFAData.Mat = [ flip_angles' TR'];
+data = struct;
+data.VFAData = Im;
+FitResults = FitData(data, Model);
+
+
 for angles=1:NbAngles
     fid=fopen(t1_files{angles} ,'r');
     if fid>0

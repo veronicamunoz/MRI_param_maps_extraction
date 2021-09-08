@@ -62,7 +62,7 @@ for s = 1 : size(Subj_dir,1)
         FA = {'5','15','20','35'};
         t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
         thresh = 5;
-        if exist(t1_files{1}, 'file')~=0
+        if exist(t1_files{1}, 'file')~=0 
             extract_T1map_VFA(t1_files, thresh);
         end
 
@@ -97,10 +97,6 @@ cat12quality_control(Path,file_to_control,slice);
 
 %% COREGISTER TO ANAT
 % Uses the deformation champs calculated during segmentation 
-file_to_control='Anat/mri/wmT1_3D.nii';
-slice = 125; % Slice to display
-Subj_dir = dir([Path '/*']);
-Subj_dir = Subj_dir(arrayfun(@(x) ~strcmp(x.name(1),'.'),Subj_dir));
 
 % If coregistration is not needed in for all subjects, please retrieve the
 % indexes of the chosen subjects and perform the loop for s =
@@ -111,12 +107,13 @@ for s = 1 : size(Subj_dir,1)
         disp(Subj_dir(s,1).name);
         cd(fullfile(Path,Subj_dir(s,1).name))
         
-        anat_file = 
-        params = {'Perfusion/CBF','Perfusion/MTT','DIfffusion/FA','Diffusion/MD','Relaxometry/T1_map','Relaxometry/T2star_map'};
+        anat_file = fullfile(Path, Subj_dir(s,1).name, 'Anat/T1_3D.nii');
+        params = {'Perfusion/CBF','Perfusion/MTT','Diffusion/FA','Diffusion/MD','Relaxometry/T1_map','Relaxometry/T2star_map'};
         files = fullfile(Path, Subj_dir(s,1).name, strcat(params,'.nii'));
-        output_folder = '.';
+        atlas = '/home/veronica/Donnees/Atlas/mni_PD25/PD25-subcortical-complete.nii';
+        atlas_def_field = '/home/veronica/Donnees/Atlas/mni_PD25/y_PD25-fusion-template-1mm.nii';
       
-        coregister_maps(files, output_folder);
+        coregister_maps(anat_file, files, atlas, atlas_def_field);
     end
 end
 cd(Path)

@@ -62,7 +62,7 @@ for s = 1 : size(Subj_dir,1)
         FA = {'5','15','20','35'};
         t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
         thresh = 5;
-        if exist(t1_files{1}, 'file')~=0
+        if exist(t1_files{1}, 'file')~=0 
             extract_T1map_VFA(t1_files, thresh);
         end
 
@@ -111,10 +111,12 @@ for s = 1 : size(Subj_dir,1)
         disp(Subj_dir(s,1).name);
         cd(fullfile(Path,Subj_dir(s,1).name))
         
+        anat_file = fullfile(Path, Subj_dir(s,1).name, 'Anat/T1_3D.nii');
         params = {'Perfusion/CBF','Perfusion/MTT','DIfffusion/FA','Diffusion/MD','Relaxometry/T1_map','Relaxometry/T2star_map'};
         files = fullfile(Path, Subj_dir(s,1).name, strcat(params,'.nii'));
+        output_folder = '.';
       
-        coregister_maps(files,);
+        coregister_maps(anat_file, files);
     end
 end
 cd(Path)
