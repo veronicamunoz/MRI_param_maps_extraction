@@ -8,7 +8,7 @@ function extract_dti_map(app_file,apa_file)
 
 global mrtrix_path
 cd('./Diffusion');
-if exist('./FA.nii','file')~= 0 
+if exist('./FA.nii','file')== 0 
     disp('-------- MR convert nifti to mif ---------');
     status = system([mrtrix_path 'mrconvert ' app_file ' dwi_APP.mif -fslgrad ' strrep(app_file, '.nii', '.bvecs') ' ' strrep(app_file, '.nii', '.bvals')]);
     if status == 0
