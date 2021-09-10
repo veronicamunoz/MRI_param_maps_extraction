@@ -14,17 +14,17 @@
 %                            Relax
 % 
 %--------------------------------------------------------------------------
-
+addpath(genpath(pwd));
 global spm_path
 spm_path = '/usr/local/MATLAB/spm12';
 addpath(spm_path);
 global mrtrix_path
 mrtrix_path = '/home/veronica/mrtrix3/bin/';
 
-Path = '/media/veronica/DATAPART2/SignaPark/Test/';
+Path = '/media/veronica/DATAPART2/SignaPark/Controls/';
 
 %% ORGANIZE NIFTIS AFTER IMPORT WITH MRI_CONV
-organize_niftis(Path);
+%organize_niftis(Path);
 
 %% PARAMETRIC MAPS EXTRACTION
 
@@ -45,6 +45,7 @@ for s = 1 : size(Subj_dir,1)
         %
         dce_perf_file = fullfile(Path, Subj_dir(s,1).name,'Perfusion','PERFUSION.nii');
         if exist(dce_perf_file, 'file')~=0
+            disp("Calculating perfusion maps");
             extract_perf_maps(dce_perf_file);
         end
                  
@@ -54,6 +55,7 @@ for s = 1 : size(Subj_dir,1)
         limits = [0,Inf];
         thresh = 5;
         if exist(t2_file, 'file')~=0
+            disp("Calculating T2 map");
             extract_T2starmap(t2_file, thresh, limits);
         end
 
@@ -63,6 +65,7 @@ for s = 1 : size(Subj_dir,1)
         t1_files = fullfile(Path, Subj_dir(s,1).name,'Relaxometry',strcat('DCEFA',FA,'.nii'));
         thresh = 5;
         if exist(t1_files{1}, 'file')~=0 
+            disp("Calculating T1 map");
             extract_T1map_VFA(t1_files, thresh);
         end
 
@@ -71,6 +74,7 @@ for s = 1 : size(Subj_dir,1)
         apa_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APA_7x0.nii');
         app_file = fullfile(Path, Subj_dir(s,1).name,'Diffusion','Cerveau_APP_7x0.nii');
         if (exist(apa_file, 'file')~=0) && (exist(app_file, 'file')~=0)
+            disp("Calculating diffusion maps");
             extract_dti_map(app_file,apa_file);
         end
     end
@@ -94,6 +98,8 @@ pause();
 file_to_control='Anat/mri/wmT1_3D.nii';
 slice = 125; % Slice to display
 cat12quality_control(Path,file_to_control,slice);
+disp('Click ENTER if quality control is successful.');
+pause();
 
 %% COREGISTER TO ANAT
 % Uses the deformation champs calculated during segmentation 
